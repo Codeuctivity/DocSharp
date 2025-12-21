@@ -18,29 +18,26 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
       
-    - name: Setup .NET SDKs (excluding .NET 10)
+    - name: Setup .NET SDK (only .NET 10)
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: |
-          6.0.x
-          8.0.x
-          9.0.x
+        dotnet-version: 10.0.x
           
     - name: Restore dependencies
       run: dotnet restore src/DocSharp.sln
       
-    - name: Build projects (excluding .NET 10 targets)
+    - name: Build projects (only .NET 10 targets)
       run: |
-        # Build projects that target standard frameworks (excluding .NET 10)
-        dotnet build src/DocSharp.Binary/DocSharp.Binary.Common/DocSharp.Binary.Common.csproj --configuration Release '/p:TargetFrameworks="net6.0;net8.0;net9.0;net462"'
-        dotnet build src/DocSharp.Binary/DocSharp.Binary.Doc/DocSharp.Binary.Doc.csproj --configuration Release '/p:TargetFrameworks="net6.0;net8.0;net9.0;net462"'
-        dotnet build src/DocSharp.Binary/DocSharp.Binary.Xls/DocSharp.Binary.Xls.csproj --configuration Release '/p:TargetFrameworks="net6.0;net8.0;net9.0;net462"'
-        dotnet build src/DocSharp.Binary/DocSharp.Binary.Ppt/DocSharp.Binary.Ppt.csproj --configuration Release '/p:TargetFrameworks="net6.0;net8.0;net9.0;net462"'
-        dotnet build src/DocSharp.Common/DocSharp.Common.csproj --configuration Release '/p:TargetFrameworks="net6.0;net8.0;net9.0;net462"'
-        dotnet build src/DocSharp.Docx/DocSharp.Docx.csproj --configuration Release '/p:TargetFrameworks="net6.0;net8.0;net9.0;net462"'
-        dotnet build src/DocSharp.Markdown/DocSharp.Markdown.csproj --configuration Release '/p:TargetFrameworks="net6.0;net8.0;net9.0;net462"'
-        # ImageSharp doesn't support .NET Framework, only .NET 6+ (excluding .NET 10)
-        dotnet build src/DocSharp.ImageSharp/DocSharp.ImageSharp.csproj --configuration Release '/p:TargetFrameworks="net6.0;net8.0;net9.0"'
-        # Build Windows-specific projects (excluding .NET 10)
-        dotnet build src/DocSharp.SystemDrawing/DocSharp.SystemDrawing.csproj --configuration Release '/p:TargetFrameworks="net6.0-windows;net8.0-windows;net9.0-windows;net462"'
+        # Build projects that target .NET 10 only
+        dotnet build src/DocSharp.Binary/DocSharp.Binary.Common/DocSharp.Binary.Common.csproj --configuration Release '/p:TargetFrameworks="net10.0"'
+        dotnet build src/DocSharp.Binary/DocSharp.Binary.Doc/DocSharp.Binary.Doc.csproj --configuration Release '/p:TargetFrameworks="net10.0"'
+        dotnet build src/DocSharp.Binary/DocSharp.Binary.Xls/DocSharp.Binary.Xls.csproj --configuration Release '/p:TargetFrameworks="net10.0"'
+        dotnet build src/DocSharp.Binary/DocSharp.Binary.Ppt/DocSharp.Binary.Ppt.csproj --configuration Release '/p:TargetFrameworks="net10.0"'
+        dotnet build src/DocSharp.Common/DocSharp.Common.csproj --configuration Release '/p:TargetFrameworks="net10.0"'
+        dotnet build src/DocSharp.Docx/DocSharp.Docx.csproj --configuration Release '/p:TargetFrameworks="net10.0"'
+        dotnet build src/DocSharp.Markdown/DocSharp.Markdown.csproj --configuration Release '/p:TargetFrameworks="net10.0"'
+        # ImageSharp for .NET 10
+        dotnet build src/DocSharp.ImageSharp/DocSharp.ImageSharp.csproj --configuration Release '/p:TargetFrameworks="net10.0"'
+        # Build Windows-specific projects for .NET 10
+        dotnet build src/DocSharp.SystemDrawing/DocSharp.SystemDrawing.csproj --configuration Release '/p:TargetFrameworks="net10.0-windows"'
       shell: pwsh
