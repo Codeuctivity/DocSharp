@@ -11,6 +11,9 @@ jobs:
   build:
     runs-on: windows-latest
     
+    permissions:
+      contents: read
+    
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -36,6 +39,7 @@ jobs:
         dotnet build src/DocSharp.Common/DocSharp.Common.csproj --configuration Release '/p:TargetFrameworks="net6.0;net8.0;net9.0;net462"'
         dotnet build src/DocSharp.Docx/DocSharp.Docx.csproj --configuration Release '/p:TargetFrameworks="net6.0;net8.0;net9.0;net462"'
         dotnet build src/DocSharp.Markdown/DocSharp.Markdown.csproj --configuration Release '/p:TargetFrameworks="net6.0;net8.0;net9.0;net462"'
+        # ImageSharp doesn't support .NET Framework, only .NET 6+ (excluding .NET 10)
         dotnet build src/DocSharp.ImageSharp/DocSharp.ImageSharp.csproj --configuration Release '/p:TargetFrameworks="net6.0;net8.0;net9.0"'
         # Build Windows-specific projects (excluding .NET 10)
         dotnet build src/DocSharp.SystemDrawing/DocSharp.SystemDrawing.csproj --configuration Release '/p:TargetFrameworks="net6.0-windows;net8.0-windows;net9.0-windows;net462"'
